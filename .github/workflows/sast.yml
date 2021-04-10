@@ -1,7 +1,6 @@
 name: Perform Mixeway Scan
 
-on:
- push
+on: push
 
 jobs:
  mixeway-scan:
