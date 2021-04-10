@@ -2,26 +2,26 @@ name: Perform Mixeway Scan
 on: push
 jobs:
  mixeway-scan:
- name: Mixeway Scanning
- runs-on: ubuntu-latest
- steps:
-  - uses: actions/checkout@v1
-  - name: Prepare variables
-    id: vars
-    shell: bash
-    run: |
-      echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      echo "::set-output name=sha_short::$(git rev-parse HEAD)"
-  - name: Prepare Mixeway docker image
-    run: |
-      docker pull mixeway/scanner:latest
-  - name: Run Scan
-    env:
-      oss_email: ${{ secrets.OSS_EMAIL }}
-      oss_key: ${{ secrets.OSS_KEY }}
-      mixeway_key: ${{ secrets.MIXEWAY_KEY }}
-      mixeway_project_id: ${{ secrets.MIXEWAY_PROJECT_ID }}
-      commit_id: ${{ steps.vars.outputs.sha_short }}
-      branch_name: ${{ steps.vars.outputs.branch }}
-    run: |
-      docker run -e OSS_USERNAME=$oss_email -e OSS_KEY=$oss_key -e MIXEWAY_URL=https://hub.mixeway.io -e MIXEWAY_KEY=$mixeway_key -e MIXEWAY_PROJECT_ID=$mixeway_project_id -e MODE=STANDALONE -e MIXEWAY_PROJECT_NAME=S01121522_lab_secure_app1 -e COMMIT_ID=$commit_id -e BRANCH=$branch_name -v /opt/lab_sec_audit/sast:/opt/sources mixeway/scanner:latest
+  name: Mixeway Scanning
+  runs-on: ubuntu-latest
+  steps:
+   - uses: actions/checkout@v1
+   - name: Prepare variables
+     id: vars
+     shell: bash
+     run: |
+       echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+       echo "::set-output name=sha_short::$(git rev-parse HEAD)"
+   - name: Prepare Mixeway docker image
+     run: |
+       docker pull mixeway/scanner:latest
+   - name: Run Scan
+     env:
+       oss_email: ${{ secrets.OSS_EMAIL }}
+       oss_key: ${{ secrets.OSS_KEY }}
+       mixeway_key: ${{ secrets.MIXEWAY_KEY }}
+       mixeway_project_id: ${{ secrets.MIXEWAY_PROJECT_ID }}
+       commit_id: ${{ steps.vars.outputs.sha_short }}
+       branch_name: ${{ steps.vars.outputs.branch }}
+     run: |
+       docker run -e OSS_USERNAME=$oss_email -e OSS_KEY=$oss_key -e MIXEWAY_URL=https://hub.mixeway.io -e MIXEWAY_KEY=$mixeway_key -e MIXEWAY_PROJECT_ID=$mixeway_project_id -e MODE=STANDALONE -e MIXEWAY_PROJECT_NAME=S01121522_lab_secure_app1 -e COMMIT_ID=$commit_id -e BRANCH=$branch_name -v /opt/lab_sec_audit/sast:/opt/sources mixeway/scanner:latest
