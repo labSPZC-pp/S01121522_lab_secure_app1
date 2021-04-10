@@ -1,7 +1,5 @@
 name: Perform Mixeway Scan
-
 on: push
-
 jobs:
  mixeway-scan:
  name: Mixeway Scanning
@@ -16,7 +14,7 @@ jobs:
       echo "::set-output name=sha_short::$(git rev-parse HEAD)"
   - name: Prepare Mixeway docker image
     run: |
-       docker pull mixeway/scanner:latest
+      docker pull mixeway/scanner:latest
   - name: Run Scan
     env:
       oss_email: ${{ secrets.OSS_EMAIL }}
